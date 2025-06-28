@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import asyncHandler from "../middlewares/async-handler.js";
 import User from "../models/user-model.js";
 import bcrypt from "bcryptjs";
-import generateToken from "../utils/createToken.js";
+import generateToken from "../utils/create-token.js";
 const createUser = asyncHandler(async (req, res) => {
   // contain data that client send to server via body of HTTP request 
   const { username, email, password } = req.body;
@@ -62,4 +62,48 @@ const logoutCurrentUser = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "Logged out successfully" });
 });
-export { createUser, login, logoutCurrentUser};
+const getAllUsers = asyncHandler(async(req, res) => {
+  const users = await User.find({})
+  res.json(users)
+})
+const getProfileCurrentUser = asyncHandler(async(req, res) => {
+  const user = await User.findById(req.user._id)
+  if(user){
+    res.status(201).json({
+          _id: user._id,
+          username: user.username,
+          email: user.email,
+          role: user.role
+    })
+  }else{
+    res.status(401)
+    throw new Error("No user found!")
+  }
+})
+const updateUserProfile = asyncHandler(async(req, res) => {
+  const user = await User.findById(req.user._id)
+  if(user){
+    user.username = req.body.username || user.username
+    user.email = req.body.email || user.email
+    if(req.body.password){
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(req.body.password, salt)
+
+        user.password = hashedPassword
+    }
+     const updatedUser = await user.save()
+  res.json({
+    _id: updatedUser._id,
+    username: updatedUser.username,
+    email: updatedUser.email,
+    role: updatedUser.role
+  })
+  }
+  else{
+    res.status(404)
+    throw new Error("An error occured when updating user's profile.")
+
+  }
+ 
+})
+export { createUser, login, logoutCurrentUser, getAllUsers, getProfileCurrentUser, updateUserProfile};
