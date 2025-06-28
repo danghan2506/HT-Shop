@@ -1,9 +1,12 @@
 import mongoose from "mongoose";
 import asyncHandler from "../middlewares/async-handler.js";
 import User from "../models/user-model.js";
+import bcrypt from "bcryptjs";
+import generateToken from "../utils/createToken.js";
 const createUser = asyncHandler(async (req, res) => {
+  // contain data that client send to server via body of HTTP request 
   const { username, email, password } = req.body;
-
+  
   // Check inputs
   if (!username || !email || !password) {
     throw new Error("Please fill all the inputs.");
@@ -12,9 +15,13 @@ const createUser = asyncHandler(async (req, res) => {
   if (isUserExits) {
     res.status(400).send("User already exists!");
   }
-  const newUser = new User({ username, email, password });
+  // using brcrypt to hash password 
+  const salt = await bcrypt.genSalt(10)
+  const hashedPassword = await bcrypt.hash(password, salt)
+  const newUser = new User({ username, email, password: hashedPassword });
   try {
     await newUser.save();
+    generateToken(res, newUser._id)
     res.status(201).json({
       _id: newUser._id,
       username: newUser.username,
@@ -26,4 +33,33 @@ const createUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid user data");
   }
 });
-export { createUser };
+const login = asyncHandler(async(req, res) => {
+  const {email, password} = req.body
+  const existingUser = await User.findOne({email})
+  if(existingUser){
+    const isValidPassword = await bcrypt.compare(password, existingUser.password)
+    if(isValidPassword){
+      try {
+        generateToken(res, existingUser._id)
+      res.status(201).json({
+        _id: existingUser._id,
+        username: existingUser.username,
+        email: existingUser.email,
+        role: existingUser.role
+      })
+      } catch (error) {
+        throw new Error("User is not exist!")
+      }
+      return
+    }
+  }
+})
+const logoutCurrentUser = asyncHandler(async (req, res) => {
+  res.cookie("jwt", "", {
+    httyOnly: true,
+    expires: new Date(0),
+  });
+
+  res.status(200).json({ message: "Logged out successfully" });
+});
+export { createUser, login, logoutCurrentUser};
