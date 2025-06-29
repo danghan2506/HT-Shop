@@ -1,11 +1,15 @@
-
-import './App.css'
-
+import { Button } from "@/components/ui/button"
+import {ToastContainer} from "react-toastify"
+import {Outlet} from "react-router-dom"
+import Navigation from "./pages/Auth/Navigation"
 function App() {
- 
   return (
     <>
-      <h1 className='text-2xl bg-cyan-300 font-extralight'>Hello hihihihi</h1>
+      <ToastContainer/>
+      <Navigation/>
+      <main className="py-3">
+        <Outlet/>
+      </main>
     </>
   )
 }
