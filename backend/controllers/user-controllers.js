@@ -14,6 +14,7 @@ const createUser = asyncHandler(async (req, res) => {
   const isUserExits = await User.findOne({ email });
   if (isUserExits) {
     res.status(400).send("User already exists!");
+    return
   }
   // using brcrypt to hash password 
   const salt = await bcrypt.genSalt(10)
@@ -56,7 +57,7 @@ const login = asyncHandler(async(req, res) => {
 })
 const logoutCurrentUser = asyncHandler(async (req, res) => {
   res.cookie("jwt", "", {
-    httyOnly: true,
+    httpOnly: true,
     expires: new Date(0),
   });
 
@@ -104,6 +105,52 @@ const updateUserProfile = asyncHandler(async(req, res) => {
     throw new Error("An error occured when updating user's profile.")
 
   }
- 
 })
-export { createUser, login, logoutCurrentUser, getAllUsers, getProfileCurrentUser, updateUserProfile};
+const deleteUserById = asyncHandler(async(req, res) => {
+  // req.user._id: lay ra user hien tai, req.params.
+  const user = await User.findById(req.params.id)
+  if(user){
+    if(user.role === "admin"){
+      res.status(400)
+      throw new Error("Can't delete Admin!")
+    }
+    else{
+       await User.deleteOne({_id: user._id})
+       res.json({message: "User removed successfully!"})
+    }
+  }
+  else{
+    res.status(404)
+    throw new Error("ID is not valid!")
+  }
+})
+const getUserById = asyncHandler(async(req, res) => {
+  const user = await User.findById(req.params.id).select("-password")
+  if(user){
+    res.json(user)
+  }else{
+    res.status(404)
+    throw new Error("ID is not valid!")
+  }
+})
+const updateUserById = asyncHandler(async(req, res) => {
+  const user = await User.findById(req.params.id)
+  if(user){
+    user.username = req.body.username || user.username
+    user.email = req.body.email || user.email
+    if(req.body.password){
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(req.body.password, salt)
+        user.password = hashedPassword
+    }
+    user.role = req.body.role || user.role
+    const updatedUser = await user.save()
+  res.json({
+    _id: updatedUser._id,
+    username: updatedUser.username,
+    email: updatedUser.email,
+    role: updatedUser.role
+  })
+  }
+})
+export { createUser, login, logoutCurrentUser, getAllUsers, getProfileCurrentUser, updateUserProfile, deleteUserById, getUserById, updateUserById};
