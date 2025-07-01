@@ -4,12 +4,10 @@ import { BASE_URL } from "../features/constants"
 const baseQuery = fetchBaseQuery({baseUrl: BASE_URL})
 // API slice
 const apiSlice = createApi({
-    // call API
-    baseQuery,
+    baseQuery, // call API,
     // khai báo các loại dữ liệu để dùng cho cache và tự động refetch dữ liệu khi có thay đổi
     tagTypes: ["Product", "Order", "User", "Category"],
-    // định nghĩa cac API endpoint (GET, POST, PUT, DELETE)
-    endpoints: () => ({})
+    endpoints: () => ({}) //định nghĩa cac API endpoint (GET, POST, PUT, DELETE)
 })
 export default apiSlice
 // => Định nghĩa các API endpoint cho ứng dụng (vd: lấy dsach sản phẩm, tạo đơn hàng, đăng nhập, ....)
