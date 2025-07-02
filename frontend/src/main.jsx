@@ -7,10 +7,12 @@ import { createBrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import {store} from './redux/features/store.js'
 import Login from './pages/Auth/Login.jsx'
+import Shop from './pages/User/Shop.jsx'
 const router = createBrowserRouter(
   createRoutesFromElements(
    <Route path='/' element={<App/>}>
-    <Route path='/login' element={<Login/>}/>
+   <Route path="/login" element={<Login />}/>
+   <Route path="/shop" element={<Shop/>}/>
   </Route>
  )
 )

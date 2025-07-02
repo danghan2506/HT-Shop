@@ -1,10 +1,36 @@
-import {ChevronUp,User2,Calendar,Heart,Home,Inbox,Search,Settings,ShoppingBag,ShoppingCart,} from "lucide-react";
-import {Sidebar,SidebarContent,SidebarGroup,SidebarGroupContent,SidebarGroupLabel,SidebarMenu,SidebarMenuButton,SidebarMenuItem,SidebarFooter,} from "@/components/ui/sidebar";
-import {DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger,} from "@/components/ui/dropdown-menu";
+import {
+  ChevronUp,
+  User2,
+  Calendar,
+  Heart,
+  Home,
+  Inbox,
+  Search,
+  Settings,
+  ShoppingBag,
+  ShoppingCart,
+} from "lucide-react";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarFooter,
+} from "@/components/ui/sidebar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useLoginMutation } from "../../redux/api/user-api-slice";
-import {logout} from '../../redux/features/Auth/auth-slice'
+import { useLogoutMutation } from "../../redux/api/user-api-slice";
+import { logout } from "../../redux/features/Auth/auth-slice";
 // Menu items.
 const items = [
   {
@@ -35,21 +61,21 @@ const items = [
 ];
 
 export function AppSidebar() {
-  const {userInfo} = useSelector(state=> state.auth)
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const [logoutApiCall] = useLoginMutation()
+  const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [logoutApiCall] = useLogoutMutation();
   const logoutHandler = async () => {
     try {
-      await logoutApiCall().unwrap()
-      dispatch(logout())
-      navigate("/login")
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+      navigate("/login");
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-  }
+  };
   return (
-    <Sidebar>
+    <Sidebar className="z-10">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>HT Shop</SidebarGroupLabel>
@@ -58,10 +84,10 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link to={item.url}>
                       <item.icon size={36} />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -75,7 +101,14 @@ export function AppSidebar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <User2 /> {userInfo ? <span className="text-white">{userInfo.username}</span> : <span>Username</span>} 
+                  <User2 />{" "}
+                  {userInfo ? (
+                    <span className="text-neutral-600">
+                      {userInfo.username}
+                    </span>
+                  ) : (
+                    <span>Username</span>
+                  )}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -83,16 +116,33 @@ export function AppSidebar() {
                 side="top"
                 className="w-[--radix-popper-anchor-width]"
               >
-                <DropdownMenuItem>
-                  <Link to='/login'>
-                    <span>Login</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link to="/signout">
-                    <span>Logout</span>
-                  </Link>
-                </DropdownMenuItem>
+                {!userInfo ? (
+                  <>
+                    <DropdownMenuItem>
+                      <Link to="/login">
+                        <span>Login</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link to="/register">
+                        <span>Register</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                ) : (
+                  <>
+                    {userInfo.role === "admin" && (
+                      <DropdownMenuItem>
+                        <Link to="/dashboard">
+                          <span>Dashboard</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuItem onClick={logoutHandler} className="cursor-pointer">
+                      <span>Logout</span>
+                    </DropdownMenuItem>
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>
