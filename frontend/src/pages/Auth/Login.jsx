@@ -5,7 +5,7 @@ import {
   CardDescription,
   CardContent,
   CardAction,
-  CardFooter
+  CardFooter,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -19,57 +19,62 @@ import { toast } from "react-toastify";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const [login, {isLoading}] = useLoginMutation()
-  const {search} = useLocation()
-  const {userInfo} = useSelector(state => state.auth)
-  const sp = new URLSearchParams(search)
-  const redirect = sp.get("redirect") || "/"
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [login] = useLoginMutation();
+  const { search } = useLocation();
+  const { userInfo } = useSelector((state) => state.auth);
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get("redirect") || "/";
   const submitHandler = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const res = await login({email, password}).unwrap()
-      console.log(res)
-      dispatch(setCredentials({...res}))
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      toast.success("Login successfully");
     } catch (error) {
-      toast.error(error?.data?.message || error.message)
+      toast.error(error?.data?.message || error.message);
     }
-  }
+  };
   useEffect(() => {
-    if(userInfo){
-      navigate(redirect)
+    if (userInfo) {
+      navigate(redirect);
     }
-  }, [navigate, redirect, userInfo])
+  }, [navigate, redirect, userInfo]);
   return (
-     <div className="relative h-screen w-screen">
-    <Card className="w-full max-w-md flex justify-center">
-      <CardHeader>
-        <CardTitle>Login to your account</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
-        </CardDescription>
-        <CardAction>
-          <Button variant="link" className="cursor-pointer">Sign Up</Button>
-        </CardAction>
-      </CardHeader>
+    <div className="flex flex-row relative h-screen w-screen mx-5 my-5">
+      <Card className="w-full max-w-md flex justify-center">
+        <CardHeader>
+          <CardTitle>Login to your account</CardTitle>
+          <CardDescription>
+            Enter your email below to login to your account
+          </CardDescription>
+        </CardHeader>
         <form onSubmit={submitHandler}>
           <CardContent>
-          <div className="flex flex-col gap-6">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="m@example.com"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
+            <div className="flex flex-col gap-6">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="m@example.com"
+                  required
+                />
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="password">Password</Label>
+                </div>
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
                 <a
                   href="#"
                   className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
@@ -77,20 +82,33 @@ export default function Login() {
                   Forgot your password?
                 </a>
               </div>
-              <Input id="password" type="password" required value={password} onChange={e => setPassword(e.target.value)}/>
             </div>
-          </div>
-        <CardFooter className="flex-col gap-2 mt-5">
-        <Button type="submit" className="w-full cursor-pointer">
-          Login
-        </Button>
-        <Button variant="outline" className="w-full cursor-pointer">
-          Login with Google
-        </Button>
-      </CardFooter>
-      </CardContent>
-  </form>
-    </Card>
+            <CardFooter className="flex-col gap-2 mt-5">
+              <Button type="submit" className="w-full cursor-pointer">
+                Login
+              </Button>
+              <Button variant="outline" className="w-full cursor-pointer">
+                Login with Google
+              </Button>
+            </CardFooter>
+            <CardAction className="flex items-center justify-end gap-2 w-full ml-6">
+              <CardDescription className="m-2">
+                New customer?
+              </CardDescription>
+              <Link to={redirect ? `/signup?redirect=${redirect}` : "/signup"}>
+                <Button variant="link" className="cursor-pointer p-0 h-auto">
+                  Signup
+                </Button>
+              </Link>
+            </CardAction>
+          </CardContent>
+        </form>
+      </Card>
+       <img
+          src="/src/assets/e-commerce-image.png"
+          alt=""
+          className="h-[45rem] w-[50%] mx-3 xl:block md:hidden sm:hidden rounded-lg"
+        />
     </div>
   );
 }

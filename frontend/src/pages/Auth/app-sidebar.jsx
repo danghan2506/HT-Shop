@@ -53,11 +53,6 @@ const items = [
     url: "/favourite",
     icon: Heart,
   },
-  {
-    title: "Settings",
-    url: "/login",
-    icon: Settings,
-  },
 ];
 
 export function AppSidebar() {
@@ -124,7 +119,7 @@ export function AppSidebar() {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                      <Link to="/register">
+                      <Link to="/signup">
                         <span>Register</span>
                       </Link>
                     </DropdownMenuItem>
@@ -138,6 +133,11 @@ export function AppSidebar() {
                         </Link>
                       </DropdownMenuItem>
                     )}
+                    <DropdownMenuItem className="cursor-pointer">
+                      <Link to="/profile">
+                       <span>Profile</span>
+                      </Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={logoutHandler} className="cursor-pointer">
                       <span>Logout</span>
                     </DropdownMenuItem>
