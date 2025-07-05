@@ -6,21 +6,27 @@ import { BrowserRouter, Route, RouterProvider, createRoutesFromElements } from '
 import { createBrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import {store} from './redux/features/store.js'
-import Login from './pages/Auth/Login.jsx'
-import Shop from './pages/User/Shop.jsx'
-import Signup from './pages/Auth/signup.jsx'
+import Login from './pages/auth/Login.jsx'
+import Shop from './pages/user/shop.jsx'
+import Signup from './pages/auth/signup.jsx'
 import { ToastContainer } from 'react-toastify'
-import PrivateRoute from './components/PrivateRoute.jsx'
+import PrivateRoute from './pages/user/private-route.jsx'
 import Profile from './pages/User/Profile.jsx'
+import AdminRoute from './pages/Admin/admin-route.jsx'
+import UsersList from './pages/admin/users-list.jsx'
 const router = createBrowserRouter(
   createRoutesFromElements(
    <Route path='/' element={<App/>}>
    <Route path='' element={<PrivateRoute/>}>
-      <Route path='/profile' element={<Profile/>}/>
+      <Route path='profile' element={<Profile/>}/>
    </Route>
    <Route path="/login" element={<Login />}/>
    <Route path='/signup' element={<Signup/>}/>
    <Route path="/shop" element={<Shop/>}/>
+   {/* Admin routes */}
+   <Route path='/admin' element={<AdminRoute/>}>
+    <Route path="users-list" element={<UsersList/>}/>
+   </Route>
   </Route>
  )
 )

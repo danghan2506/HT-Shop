@@ -2,7 +2,7 @@
 import {Outlet} from "react-router-dom"
 import React from "react"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "./pages/Auth/app-sidebar"
+import { AppSidebar } from "./pages/auth/app-sidebar"
 function App() {
   return (
    <SidebarProvider>

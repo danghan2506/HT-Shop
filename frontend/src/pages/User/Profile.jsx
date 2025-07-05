@@ -22,7 +22,7 @@ const Profile = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const {userInfo} = useSelector(state => state.auth)
-  const [updateProfile, {isLoading: loadingUpdateProfile}] = useProfileMutation()
+  const [updateProfile] = useProfileMutation()
   const dispatch = useDispatch();
    useEffect(() => {
     setUserName(userInfo.username);
@@ -62,7 +62,6 @@ const Profile = () => {
                                 type="text"
                                 onChange={(e) => setUserName(e.target.value)}
                                 placeholder={userInfo.username}
-                                required
                               />
                             </div>
                             <div className="grid gap-2">
@@ -70,8 +69,9 @@ const Profile = () => {
                               <Input
                                 id="email"
                                 type="email"
-                                onChange={(e) => setEmail(e.target.value)}
+                                readOnly
                                 placeholder={email}
+                                disabled
                               />
                             </div>
                             <div className="grid gap-2">
