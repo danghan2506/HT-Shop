@@ -127,11 +127,19 @@ export function AppSidebar() {
                 ) : (
                   <>
                     {userInfo.role === "admin" && (
+                      <> 
                       <DropdownMenuItem>
                         <Link to="/dashboard">
                           <span>Dashboard</span>
                         </Link>
                       </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Link to="/admin/users-list">
+                          <span>Users</span>
+                        </Link>
+                      </DropdownMenuItem>
+                      </>
+                      
                     )}
                     <DropdownMenuItem className="cursor-pointer">
                       <Link to="/profile">
