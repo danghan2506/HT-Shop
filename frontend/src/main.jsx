@@ -15,6 +15,7 @@ import Profile from './pages/User/Profile.jsx'
 import AdminRoute from './pages/Admin/admin-route.jsx'
 import UsersList from './pages/admin/users-list.jsx'
 import CategoryList from './pages/admin/CategoryList.jsx'
+import { Toaster } from 'sonner'
 const router = createBrowserRouter(
   createRoutesFromElements(
    <Route path='/' element={<App/>}>
@@ -34,7 +35,7 @@ const router = createBrowserRouter(
 )
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
-    <ToastContainer/>
+    <Toaster/>
     <RouterProvider router={router}/>
   </Provider>
 )

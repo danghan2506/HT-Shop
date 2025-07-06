@@ -15,7 +15,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../../redux/api/user-api-slice";
 import { setCredentials } from "../../redux/features/Auth/auth-slice";
-import { toast } from "react-toastify";
+import { toast } from "sonner"
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +31,7 @@ export default function Login() {
     try {
       const res = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
-      toast.success("Login successfully");
+      toast.success("Login successfully!")
     } catch (error) {
       toast.error(error?.data?.message || error.message);
     }
