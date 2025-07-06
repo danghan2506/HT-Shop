@@ -47,7 +47,7 @@ const deleteCategory = asyncHandler(async(req, res) => {
         }
         else{
             res.status(201)
-            res.json("Delete category successfully!")
+            res.json(category)
         }
     } catch (error) {
         throw new Error("Internal server error")
