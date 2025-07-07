@@ -34,7 +34,7 @@ const CategoryForm = ({ value, setValue, handleSubmit, buttonText = "Submit", ha
   }
 
   return (
-    <div className='p-3'>
+    <div className='p-3 min-w-[300px]'>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
           <FormField

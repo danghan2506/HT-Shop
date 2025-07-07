@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import cookieParser from "cookie-parser";
 import userRoute from "./routes/user-routes.js"
 import categoryRoute from "./routes/category-routes.js"
+import productRoute from "./routes/product-routes.js"
 dotenv.config()
 const port = process.env.PORT 
 const DATABASE_URI = process.env.DATABASE_URI
@@ -14,6 +15,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
 app.use("/api/users", userRoute)
 app.use("/api/category", categoryRoute)
+app.use("/api/products", productRoute)
 app.listen(port, (req, res) => {
     console.log(`Server is running on port: ${port}`)
 })
