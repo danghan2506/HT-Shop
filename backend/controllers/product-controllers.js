@@ -18,6 +18,10 @@ const createProduct = asyncHandler(async (req, res) => {
       case !category:
         return res.json({ error: "Category is required" });
     }
+    const existingProduct = await Product.findOne({ name });
+    if (existingProduct) {
+      return res.status(400).json({ error: "Product already exists!" });
+    }
     const product = new Product({ ...req.fields });
     await product.save();
     res.json(product);
@@ -48,15 +52,109 @@ const updateProduct = asyncHandler(async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-const deleteProduct = asyncHandler(async(req, res) => {
+const deleteProduct = asyncHandler(async (req, res) => {
+  const { productId } = req.params;
+  try {
+    const deleteProduct = await Product.findByIdAndDelete(productId);
+    res.json(deleteProduct);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+const fetchProducts = asyncHandler(async (req, res) => {
+  try {
+    const pageSize = 6;
+    const keyword = req.query.keyword
+      ? {name: {$regex: req.query.keyword,$options: "i"}}
+      : {};
+    const count = await Product.countDocuments({ ...keyword });
+    const products = await Product.find({ ...keyword }).limit(pageSize);
+
+    res.json({
+      products,
+      page: 1,
+      pages: Math.ceil(count / pageSize),
+      hasMore: false,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+const fetchProductById = asyncHandler(async(req, res) => {
+  try {
     const {productId} = req.params
-    try{
-        const deleteProduct = await Product.findByIdAndDelete(productId)
-        res.json(deleteProduct)
+    const product = await Product.findById(productId)
+    if(!product){
+      res.status(404).json("Product not found!")
     }
-    catch(error){
-        console.error(error)
-        res.status(500).json({ error: "Server error" });
-    }
+    res.json(product)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({error})
+  }
 })
-export { createProduct, updateProduct, deleteProduct };
+const fetchAllProducts = asyncHandler(async(req, res) => {
+  try {
+    // populate("category"): là field name, k phải schema
+     const products = await Product.find({}).populate("category").limit(12).sort({createAt: -1})
+     res.json(products)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json("Server error!")
+  } 
+})
+
+const fetchTopProducts = asyncHandler(async(req, res) => {
+  try {
+    const topProducts = await Product.find({}).sort({rating: -1}).limit(4)
+    res.json(topProducts)
+  } catch (error) {
+     console.error(error)
+    res.status(500).json("Server error!")
+  }
+})
+const addProductReviews = asyncHandler(async (req, res) => {
+  const {productId} = req.params
+  try {
+    const {rating, comment} = req.body
+    const product = await Product.findById(productId)
+    if(product){
+      const alreadyReviewed = product.reviews.find((review) => review.user.toString() === req.user._id.toString())
+      if(alreadyReviewed){
+        res.status(400)
+        throw new Error("Product already reviewed")
+    }
+    const review = {
+      name: req.user.username,
+      rating: Number(rating),
+      comment,
+      user:req.user._id,
+    }
+    product.reviews.push(review)
+    product.reviewCount = product.reviews.length
+    product.rating = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length
+    await product.save()
+    res.status(201).json({message: "Review added"})  
+  }
+  else{
+    res.status(404)
+    throw new Error("Product not found!")
+  }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json("Server error!")
+  }
+})
+const fetchNewProducts = asyncHandler(async(req, res) => {
+  try {
+    const products = await Product.find({}).sort({createdAt: -1}).limit(12)
+  res.json(products)
+  } catch (error) {
+     console.error(error)
+    res.status(500).json("Server error!")
+  }
+})
+
+export { createProduct, updateProduct, deleteProduct, fetchProducts, fetchProductById, fetchAllProducts, fetchTopProducts, addProductReviews, fetchNewProducts};
