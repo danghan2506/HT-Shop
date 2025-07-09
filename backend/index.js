@@ -7,7 +7,6 @@ import categoryRoute from "./routes/category-routes.js"
 import productRoute from "./routes/product-routes.js"
 import uploadRoute from "./routes/upload-routes.js"
 import path from "path";
-
 dotenv.config()
 const port = process.env.PORT 
 const DATABASE_URI = process.env.DATABASE_URI
