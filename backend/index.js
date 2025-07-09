@@ -19,8 +19,8 @@ app.use("/api/users", userRoute)
 app.use("/api/category", categoryRoute)
 app.use("/api/products", productRoute)
 app.use("/api/upload", uploadRoute)
-const __dirname = path.resolve()
-app.use("/uploads", express.static(path.join(__dirname + "/upload")))
+const __dirname = path.resolve();
+app.use("/uploads", express.static(path.join(__dirname + "/uploads")));
 app.listen(port, (req, res) => {
     console.log(`Server is running on port: ${port}`)
 })

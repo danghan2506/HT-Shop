@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Upload, Package } from "lucide-react";
 import { toast } from "sonner";
-const ProductList = () => {
+const ProductForm = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -32,6 +32,7 @@ const ProductList = () => {
       toast.success(res.message);
       setImage(res.image);
       setImageUrl(res.image);
+      console.log(res.image)
     } catch (error) {
       toast.error(error?.data?.message || error.error);
     } };
@@ -49,6 +50,7 @@ const ProductList = () => {
       productData.append("quantity", quantity)
       const { data } = await createProduct(productData);
       if (data.error) {
+        console.error(data.error)
         toast.error("Product create failed. Try Again.");
       } else {
         toast.success(`${data.name} is created`);
@@ -56,8 +58,8 @@ const ProductList = () => {
       }
     }
     catch(error){
-       console.error(error);
-      toast.error("Product create failed. Try Again.");
+      console.error(error);
+      toast.error(error?.data?.message || error?.message || "Product create failed. Try Again.");
     }
   }
 
@@ -186,5 +188,5 @@ const ProductList = () => {
     </div>
   )
 };
-export default ProductList
+export default ProductForm
 

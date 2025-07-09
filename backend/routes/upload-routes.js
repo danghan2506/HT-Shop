@@ -12,13 +12,12 @@ const storage = multer.diskStorage({
   },
 })
 const fileFilter = (req, file, cb) => {
-   const filetypes = /jpe?g|png|webp/;
+  const filetypes = /jpe?g|png|webp/;
   const mimetypes = /image\/jpe?g|image\/png|image\/webp/;
-
   const extname = path.extname(file.originalname).toLowerCase();
   const mimetype = file.mimetype;
 
-  if (filetypes.test(extname) && mimetypes.test(mimetype)) {
+   if (filetypes.test(extname) && mimetypes.test(mimetype)) {
     cb(null, true);
   } else {
     cb(new Error("Images only"), false);
@@ -33,7 +32,7 @@ router.post("/", (req, res) => {
     } else if (req.file) {
       res.status(200).send({
         message: "Image uploaded successfully",
-        image: `/${req.file.path}`,
+        image: `/${req.file.path.replace(/\\\\/g, '/').replace(/\\/g, '/')}`,
       });
     } else {
       res.status(400).send({ message: "No image file provided" });
