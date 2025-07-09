@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Upload, Package } from "lucide-react";
 import { toast } from "sonner";
+import AdminMenu from "../../components/admin-menu";
 const ProductForm = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -64,9 +65,9 @@ const ProductForm = () => {
   }
 
   return (
-        <div className="container xl:mx-[9rem] sm:mx-[0]">
+      <div className="container xl:mx-[9rem] sm:mx-[0]">
       <div className="flex flex-col md:flex-row">
-        {/* <AdminMenu /> */}
+        <AdminMenu />
         <div className="md:w-3/4 p-3">
           <div className="h-12">Create Product</div>
           {imageUrl && (
