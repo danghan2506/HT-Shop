@@ -15,6 +15,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import AdminMenu from '../../components/admin-menu';
 const UsersList = () => {
   const {data: users, refetch, isLoading, error} = useUserListQuery()
   const [deleteUser] = useDeleteUserMutation()
@@ -81,6 +82,7 @@ const UsersList = () => {
   }
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-6">
+      <AdminMenu/>
       <div className="max-w-6xl mx-auto">
         <Card className="border-gray-200 shadow-lg">
           <CardHeader className="bg-white border-b border-gray-200">

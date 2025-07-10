@@ -139,15 +139,10 @@ export function AppSidebar() {
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem>
-                        <Link to="/admin/category">
-                          <span>Category</span>
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Link to="/admin/create-products">
-                          <span>Create product</span>
-                        </Link>
-                      </DropdownMenuItem>
+                      <Link to="/admin/category">
+                        <span>Category</span>
+                      </Link>
+                    </DropdownMenuItem>
                       </>
                       
                     )}

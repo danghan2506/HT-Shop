@@ -18,6 +18,7 @@ import CategoryList from './pages/admin/CategoryList.jsx'
 import ProductForm from './pages/admin/ProductForm.jsx'
 import { Toaster } from 'sonner'
 import UpdateProduct from './pages/admin/UpdateProduct.jsx'
+import AllProduct from './pages/admin/AllProduct.jsx'
 const router = createBrowserRouter(
   createRoutesFromElements(
    <Route path='/' element={<App/>}>
@@ -32,7 +33,8 @@ const router = createBrowserRouter(
     <Route path="users-list" element={<UsersList/>}/>
     <Route path="category" element={<CategoryList/>}/>
     <Route path="create-products" element={<ProductForm/>}/>
-    {/* <Route path="/product/update/:_id" element={<UpdateProduct/>}/> */}
+    <Route path="all-products" element={<AllProduct/>}/>
+    <Route path="product/update/:_id" element={<UpdateProduct/>}/>
    </Route>
   </Route>
  )

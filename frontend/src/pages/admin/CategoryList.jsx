@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
 import CategoryForm from './CategoryForm'
-
+import AdminMenu from '../../components/admin-menu'
 const CategoryList = () => {
   const { data } = useGetAllCategoriesQuery()
   const categories = data?.listCategory || []
@@ -74,6 +74,7 @@ const CategoryList = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
+            <AdminMenu/>
       <h2 className="text-2xl font-semibold mb-4">Manage Categories</h2>
       <div className="bg-white shadow rounded-lg p-4 mb-6">
         <CategoryForm

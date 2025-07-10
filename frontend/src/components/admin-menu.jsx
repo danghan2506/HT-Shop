@@ -40,6 +40,11 @@ const AdminMenu = () => {
               <span>Create product</span>
             </Link>
           </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link to="/admin/all-products">
+              <span>All product</span>
+            </Link>
+          </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
           </DropdownMenu>
