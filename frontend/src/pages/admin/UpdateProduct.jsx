@@ -46,6 +46,7 @@ const UpdateProduct = () => {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 2000,
       });
+      console.error(err)
     }
   };
   const handleSubmit = async(e) => {

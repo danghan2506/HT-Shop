@@ -51,7 +51,7 @@ const ProductForm = () => {
       productData.append("quantity", quantity)
       const { data } = await createProduct(productData);
       if (data.error) {
-        console.error(data.error)
+        console.log(data.error)
         toast.error("Product create failed. Try Again.");
       } else {
         toast.success(`${data.name} is created`);
@@ -160,8 +160,10 @@ const ProductForm = () => {
     <select
       placeholder="Choose Category"
       className="p-4 mb-3 w-full border rounded-lg"
+      value={category}
       onChange={(e) => setCategory(e.target.value)}
     >
+      <option value="" disabled selected>Choose Category</option>
       {categories?.map((c) => (
         <option key={c._id} value={c._id}>
           {c.name}

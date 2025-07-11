@@ -66,7 +66,7 @@ const AllProduct = () => {
                             />
                           </svg>
                         </Link>
-                        <p>$ {product?.price}</p>
+                        <p>{product?.price} VNĐ</p>
                       </div>
                     </div>
                   </div>
