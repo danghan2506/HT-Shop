@@ -113,12 +113,12 @@ export function AppSidebar() {
               >
                 {!userInfo ? (
                   <>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem asChild>
                       <Link to="/login">
                         <span>Login</span>
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem asChild>
                       <Link to="/signup">
                         <span>Register</span>
                       </Link>
@@ -128,17 +128,17 @@ export function AppSidebar() {
                   <>
                     {userInfo.role === "admin" && (
                       <> 
-                      <DropdownMenuItem>
+                      <DropdownMenuItem asChild>
                         <Link to="/admin/dashboard">
                           <span>Dashboard</span>
                         </Link>
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem asChild>
                         <Link to="/admin/users-list">
                           <span>Users</span>
                         </Link>
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem asChild>
                       <Link to="/admin/category">
                         <span>Category</span>
                       </Link>
@@ -146,7 +146,7 @@ export function AppSidebar() {
                       </>
                       
                     )}
-                    <DropdownMenuItem className="cursor-pointer">
+                    <DropdownMenuItem asChild className="cursor-pointer">
                       <Link to="/profile">
                        <span>Profile</span>
                       </Link>

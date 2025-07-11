@@ -19,7 +19,7 @@ const AdminMenu = () => {
               </Button>
             </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56 mt-2 bg-white border border-gray-200 shadow-lg rounded-lg" align="end">
-            <DropdownMenuGroup>
+            <DropdownMenuGroup asChild>
               <DropdownMenuItem>
             <Link to="/admin/dashboard">
               <span>Dashboard</span>

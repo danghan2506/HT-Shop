@@ -36,20 +36,14 @@ const UpdateProduct = () => {
     formData.append("image", e.target.files[0]);
     try {
       const res = await uploadProductImage(formData).unwrap();
-      toast.success("Item added successfully", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 2000,
-      });
+      toast.success("Item added successfully");
       setImage(res.image);
     } catch (err) {
-      toast.success("Item added successfully", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 2000,
-      });
+      toast.success("Item added successfully");
       console.error(err)
     }
   };
-  const handleSubmit = async(e) => {
+  const updateHandler = async(e) => {
     e.preventDefault()
     try {
       const formData = new FormData();
@@ -62,24 +56,20 @@ const UpdateProduct = () => {
       formData.append("brand", brand);
       formData.append("countInStock", stock);
       const data = await updateProduct({ productId: params._id, formData });
+      console.log("Are u working properly?")
       if (data?.error) {
+        console.error(data?.error)
         toast.error(data.error, {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 2000,
         });
       } else {
-        toast.success(`Product successfully updated`, {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 2000,
-        });
-        navigate("/admin/allproductslist");
+        toast.success("Product successfully updated");
+        navigate("/admin/all-products");
       }
     } catch (error) {
-      console.log(err);
-      toast.error("Product update failed. Try again.", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 2000,
-      });
+      console.log(error);
+      toast.error("Product update failed. Try again.");
     }
   }
   const handleDelete = async () => {
@@ -94,7 +84,7 @@ const UpdateProduct = () => {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 2000,
       });
-      navigate("/admin/allproductslist");
+      navigate("/admin/all-products");
     } catch (err) {
       console.log(err);
       toast.error("Delete failed. Try again.", {
@@ -118,7 +108,7 @@ const UpdateProduct = () => {
               />
             </div>
           )}
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={updateHandler}>
             <div className="mb-3 border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors cursor-pointer flex flex-col items-center justify-center">
               <label htmlFor="image-upload" className="cursor-pointer text-black font-medium hover:text-gray-700 mb-2 flex-col items-center.">
                 {image ? (image.name || image) : "Click to upload image"}
@@ -206,8 +196,8 @@ const UpdateProduct = () => {
                 ></textarea>
               </div>
               <div className="flex gap-4">
-                <button type="submit" className="py-4 px-10 rounded-md text-md font-light bg-blue-600 text-white hover:bg-blue-700">Update</button>
-                <button type="button" onClick={handleDelete} className="py-4 px-10 rounded-md text-md font-light bg-red-600 text-white hover:bg-red-700">Delete</button>
+                <button type="submit" className="py-4 px-10 rounded-md text-md font-light bg-blue-600 text-white hover:bg-blue-700 cursor-pointer">Update</button>
+                <button type="button" onClick={handleDelete} className="py-4 px-10 rounded-md text-md font-light bg-red-600 text-white hover:bg-red-700 cursor-pointer">Delete</button>
               </div>
             </div>
           </form>
