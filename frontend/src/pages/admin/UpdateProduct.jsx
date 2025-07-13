@@ -5,6 +5,7 @@ import { useGetAllCategoriesQuery } from '../../redux/api/category-api-slice'
 import {toast} from "sonner"
 const UpdateProduct = () => {
   const params = useParams()
+  
   const navigate = useNavigate();
   const {data: productData} = useGetProductByIdQuery(params._id)
    const [name, setName] = useState(productData?.name || "");
