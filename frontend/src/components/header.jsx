@@ -15,18 +15,24 @@ const Header = () => {
   }
   return (
     <>
-    <div className='flex justify-around'>
-      <div className='xl:block lg:hidden md:hidden sm:hidden'>
-        <div className='grid grid-cols-2'>
-          {data.map((product) => (
-            <div key={product._id}>
-              <SmallProduct product={product}/>
-               </div>
-          ))}
+  <div className='flex flex-col xl:flex-row xl:justify-between xl:items-start gap-6 xl:gap-8 px-4'>
+  {/* SmallProduct Grid */}
+  <div className='xl:block xl:flex-1'>
+    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 md:gap-6'>
+      {data.map((product) => (
+        <div key={product._id}>
+          <SmallProduct product={product}/>
         </div>
-      </div>
-      <CarouselProductDisplay/>
+      ))}
     </div>
+  </div>
+  
+  {/* Carousel */}
+  <div className='xl:block xl:flex-shrink-0'>
+    <CarouselProductDisplay/>
+  </div>
+</div>
+
     </>
   )
 }
