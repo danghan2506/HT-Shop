@@ -1,10 +1,10 @@
-import React from 'react'
-import { Heart } from 'lucide-react'
-import {Link} from "react-router-dom"
-import { Card, CardContent } from "@/components/ui/card"
-const SmallProduct = ({product}) => {
-    return(
-  <Card className="w-80 group hover:shadow-lg transition-shadow duration-300">
+import React from "react";
+import { Heart } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Card, CardContent } from "@/components/ui/card";
+const SmallProduct = ({ product }) => {
+  return (
+    <Card className="w-80 group hover:shadow-lg transition-shadow duration-300">
       <div className="relative overflow-hidden rounded-t-lg">
         <img
           src={product.image}
@@ -29,9 +29,7 @@ const SmallProduct = ({product}) => {
         </Link>
       </CardContent>
     </Card>
-  )
+  );
+};
 
-     
-}
-
-export default SmallProduct
+export default SmallProduct;

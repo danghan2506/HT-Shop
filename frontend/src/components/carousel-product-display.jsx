@@ -1,19 +1,25 @@
-import React from 'react'
-import { Card, CardContent } from "@/components/ui/card"
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
-import { useGetAllProductsQuery } from '../redux/api/product-api-slice'
+} from "@/components/ui/carousel";
+import { useGetAllProductsQuery } from "../redux/api/product-api-slice";
+import { data } from "react-router";
 
 const CarouselProductDisplay = () => {
-  const {data: products, isLoading, error} = useGetAllProductsQuery();
-  
+  const { data: products, isLoading, error } = useGetAllProductsQuery();
+  console.log(data)
   if (isLoading) return <div className="text-center py-8">Loading...</div>;
-  if (error) return <div className="text-center py-8 text-red-500">Error loading products</div>;
+  if (error)
+    return (
+      <div className="text-center py-8 text-red-500">
+        Error loading products
+      </div>
+    );
 
   return (
     <div className="w-full max-w-sm xl:max-w-md">
@@ -40,9 +46,13 @@ const CarouselProductDisplay = () => {
                     </p>
                     <div className="flex items-center justify-center gap-1">
                       {Array.from({ length: 5 }).map((_, i) => (
-                        <span 
-                          key={i} 
-                          className={`text-sm ${i < (product.rating || 4) ? "text-yellow-400" : "text-gray-300"}`}
+                        <span
+                          key={i}
+                          className={`text-sm ${
+                            i < (product.rating || 4)
+                              ? "text-yellow-400"
+                              : "text-gray-300"
+                          }`}
                         >
                           ★
                         </span>
@@ -62,6 +72,6 @@ const CarouselProductDisplay = () => {
       </Carousel>
     </div>
   );
-}
+};
 
-export default CarouselProductDisplay
+export default CarouselProductDisplay;
