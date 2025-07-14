@@ -20,6 +20,7 @@ import { Toaster } from 'sonner'
 import UpdateProduct from './pages/admin/UpdateProduct.jsx'
 import AllProduct from './pages/admin/AllProduct.jsx'
 import Home from './pages/home.jsx'
+import Favourite from './pages/user/favourite.jsx'
 const router = createBrowserRouter(
   createRoutesFromElements(
    <Route path='/' element={<App/>}>
@@ -30,6 +31,7 @@ const router = createBrowserRouter(
    <Route path='/signup' element={<Signup/>}/>
    <Route path="/shop" element={<Shop/>}/>
    <Route path= "/" index={true} element={<Home/>}/>
+   <Route path='/favourite' element={<Favourite/>}/>
    {/* Admin routes */}
    <Route path='/admin' element={<AdminRoute/>}>
     <Route path="users-list" element={<UsersList/>}/>

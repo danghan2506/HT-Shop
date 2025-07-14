@@ -2,6 +2,7 @@ import React from "react";
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
+import FavouriteButton from "./fav-button";
 const SmallProduct = ({ product }) => {
   return (
     <Card className="w-80 group hover:shadow-lg transition-shadow duration-300">
@@ -11,9 +12,7 @@ const SmallProduct = ({ product }) => {
           alt={product.name}
           className="h-48 w-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
-        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <Heart className="h-6 w-6 text-white hover:text-red-500 cursor-pointer drop-shadow-lg" />
-        </div>
+        <FavouriteButton product={product}/>
       </div>
 
       <CardContent className="p-4">

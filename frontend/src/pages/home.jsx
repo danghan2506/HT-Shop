@@ -8,6 +8,7 @@ const Home = () => {
   const {data, isLoading, error} = useGetTopProductsQuery()
   return (
     <>
+    {!keywords ? <Header/> : null}
       {/* <div className='flex justify-between items-center'>
         <h1 className='ml-[20rem] mt-[10rem] text-3[rem]'>
           Specical Products
