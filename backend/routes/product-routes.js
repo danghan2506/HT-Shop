@@ -5,7 +5,7 @@ import { createProduct, updateProduct, deleteProduct, fetchProducts, fetchProduc
 const router = express.Router()
 router.route("/").post(authenticate, authorizedAdmin, formidable(), createProduct).get(fetchProducts)
 router.route("/allproducts").get(fetchAllProducts)
-router.route("/:productId/reviews").post(authenticate, authorizedAdmin, addProductReviews)
+router.route("/:productId/reviews").post(authenticate, addProductReviews)
 router.route("/top").get(fetchTopProducts)
 router.route("/new").get(fetchNewProducts)
 router
