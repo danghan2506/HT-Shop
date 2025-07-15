@@ -115,6 +115,21 @@ const fetchTopProducts = asyncHandler(async(req, res) => {
     res.status(500).json("Server error!")
   }
 })
+const fetchRelatedProducts = asyncHandler(async (req, res) => {
+  const { categoryId, productId } = req.params;
+  try {
+    // Exclude the current product from the results
+    const relatedProducts = await Product.find({
+      category: categoryId,
+      _id: { $ne: productId },
+    })
+      .limit(4);
+    res.json(relatedProducts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json("Server error!");
+  }
+});
 const addProductReviews = asyncHandler(async (req, res) => {
   const {productId} = req.params
   try {
@@ -157,4 +172,4 @@ const fetchNewProducts = asyncHandler(async(req, res) => {
   }
 })
 
-export { createProduct, updateProduct, deleteProduct, fetchProducts, fetchProductById, fetchAllProducts, fetchTopProducts, addProductReviews, fetchNewProducts};
+export { createProduct, updateProduct, deleteProduct, fetchProducts, fetchProductById, fetchAllProducts, fetchTopProducts, addProductReviews, fetchNewProducts, fetchRelatedProducts};

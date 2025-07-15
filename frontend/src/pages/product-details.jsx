@@ -6,8 +6,8 @@ import { useGetProductDetailsQuery, useCreateReviewMutation } from '../redux/api
 import Loading from '../components/loader';
 import moment from 'moment';
 import FavouriteButton from '../components/fav-button';
-import { StoreIcon, Clock, Star, ShoppingCartIcon, Box } from 'lucide-react';
-import Ratings from '../components/ratings';
+import { StoreIcon, Clock, Star, ShoppingCart, Box, ArrowLeft, Store, Package, Minus, Plus} from 'lucide-react';
+import Ratings from '../components/ratings.jsx'
 import { Button } from '../components/ui/button';
 import ProductTabs from '../components/product-tabs';
 const ProductDetails = () => {
@@ -20,6 +20,7 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('')
+  console.log(product)
   // Handler for add to cart (placeholder)
   const addToCartHandler = () => {
     // TODO: Implement add to cart logic
@@ -41,105 +42,162 @@ const ProductDetails = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen text-neutral-500 px-8 py-6">
-      <div>
-        <Link to='/' className='text-blue-400 hover:underline font-medium mb-6 inline-block'>Go Back</Link>
-      </div>
-      {isLoading ? (
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
         <Loading />
-      ) : error ? (
-        <div className="text-red-500">Error loading product.</div>
-      ) : (
-        <div className="flex flex-col lg:flex-row gap-10 items-start justify-center w-full max-w-6xl mx-auto mt-6">
-          <div className="flex-1 flex items-center justify-center relative">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="rounded-xl shadow-lg w-full max-w-2xl object-cover aspect-video"
-            />
-            <div className="absolute top-8 right-8">
-              <FavouriteButton product={product} />
-            </div>
-          </div>
-          <div className="flex-1 flex flex-col gap-2 max-w-xl">
-            <h2 className="text-3xl font-bold mb-4">{product.name}</h2>
-            <p className="mb-6 text-gray-300 text-base leading-relaxed">{product.description}</p>
-            <p className="text-5xl font-extrabold text-white mb-8">$ {product.price}</p>
-            <div className="grid grid-cols-2 gap-x-8 gap-y-4 mb-8">
-              <div className="flex items-center">
-                <StoreIcon className="mr-2 text-white" />
-                <span className="font-medium">Brand:</span>
-                <span className="ml-2">{product.brand}</span>
+      </div>
+    );
+  }
+  if (error || !product) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-red-500 text-lg">Error loading product.</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        {/* Breadcrumb */}
+        <div className="mb-8">
+          <Link 
+            to="/" 
+            className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Products
+          </Link>
+        </div>
+
+        {/* Product Details */}
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
+            {/* Product Image */}
+            <div className="relative">
+              <div className="aspect-w-1 aspect-h-1 rounded-xl overflow-hidden bg-gray-100">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <div className="flex items-center">
-                <Clock className="mr-2 text-white" />
-                <span className="font-medium">Added:</span>
-                <span className="ml-2">{moment(product.createdAt).fromNow()}</span>
-              </div>
-              <div className="flex items-center">
-                <Star className="mr-2 text-white" />
-                <span className="font-medium">Reviews:</span>
-                <span className="ml-2">{product.reviewCount}</span>
-              </div>
-              <div className="flex items-center">
-                <Star className="mr-2 text-white" />
-                <span className="font-medium">Ratings:</span>
-                <span className="ml-2">{product.rating || 0}</span>
-              </div>
-              <div className="flex items-center">
-                <ShoppingCartIcon className="mr-2 text-white" />
-                <span className="font-medium">Quantity:</span>
-                <span className="ml-2">{product.quantity}</span>
-              </div>
-              <div className="flex items-center">
-                <Box className="mr-2 text-white" />
-                <span className="font-medium">In Stock:</span>
-                <span className="ml-2">{product.stock}</span>
+              <div className="absolute top-4 right-4">
+                <FavouriteButton product={product} />
               </div>
             </div>
-            <div className='flex justify-between flex-wrap'>
-              <Ratings value={product.rating} text={`${product.reviewCount} reviews`} />
-            </div>
-            {product.stock > 0 && (
+
+            {/* Product Info */}
+            <div className="space-y-6">
               <div>
-                <select
-                  value={quantity}
-                  onChange={(e) => setQuantity(Number(e.target.value))}
-                  className="p-2 w-[6rem] rounded-lg text-black"
-                >
-                  {[...Array(product.stock).keys()].map((x) => (
-                    <option key={x + 1} value={x + 1}>
-                      {x + 1}
-                    </option>
-                  ))}
-                </select>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
+                <p className="text-gray-600 text-lg leading-relaxed">{product.description}</p>
               </div>
-            )}
-            <div className="btn-container mt-4">
-              <Button
-                onClick={addToCartHandler}
-                disabled={product.stock === 0}
-                className="bg-pink-600 text-white py-2 px-4 rounded-lg"
-              >
-                Add To Cart
-              </Button>
-            </div>
-             <div className="mt-[5rem] container flex flex-wrap items-start justify-between ml-[10rem]">
-              <ProductTabs
-                loadingProductReview={loadingProductReview}
-                userInfo={userInfo}
-                submitHandler={submitHandler}
-                rating={rating}
-                setRating={setRating}
-                comment={comment}
-                setComment={setComment}
-                product={product}
-              />
+
+              <div className="flex items-center gap-4">
+                <span className="text-4xl font-bold text-gray-600">{product.price} VNĐ</span>
+                <div className="flex items-center">
+                  <Ratings value={product.rating} text={`${product.reviewCount} reviews`} />
+                </div>
+              </div>
+
+              {/* Product Details Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-6 border-t border-b border-gray-200">
+                <div className="flex items-center gap-3">
+                  <Store className="w-5 h-5 text-gray-400" />
+                  <div>
+                    <span className="text-sm text-gray-500">Brand</span>
+                    <p className="font-medium text-gray-900">{product.brand}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <Clock className="w-5 h-5 text-gray-400" />
+                  <div>
+                    <span className="text-sm text-gray-500">Added</span>
+                    <p className="font-medium text-gray-900">{moment(product.createdAt).fromNow()}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <Star className="w-5 h-5 text-gray-400" />
+                  <div>
+                    <span className="text-sm text-gray-500">Rating</span>
+                    <p className="font-medium text-yellow">{product.rating || 0}/5</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <Package className="w-5 h-5 text-gray-400" />
+                  <div>
+                    <span className="text-sm text-gray-500">Stock</span>
+                    <p className="font-medium text-gray-900">
+                      {product.stock > 0 ? `${product.stock} available` : 'Out of stock'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quantity and Add to Cart */}
+              {product.stock > 0 && (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <span className="text-sm font-medium text-gray-700">Quantity:</span>
+                    <div className="flex items-center border border-gray-300 rounded-lg">
+                      <button
+                        onClick={() => adjustQuantity('decrease')}
+                        className="p-2 hover:bg-gray-100 transition-colors"
+                        disabled={quantity <= 1}
+                      >
+                        <Minus className="w-4 h-4" />
+                      </button>
+                      <span className="px-4 py-2 font-medium">{quantity}</span>
+                      <button
+                        onClick={() => adjustQuantity('increase')}
+                        className="p-2 hover:bg-gray-100 transition-colors"
+                        disabled={quantity >= product.stock}
+                      >
+                        <Plus className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <Button
+                    onClick={addToCartHandler}
+                    disabled={product.stock === 0}
+                    className="w-full sm:w-auto flex items-center justify-center gap-2"
+                    size="lg"
+                  >
+                    <ShoppingCart className="w-5 h-5" />
+                    Add to Cart
+                  </Button>
+                </div>
+              )}
+
+              {product.stock === 0 && (
+                <div className="text-center py-4">
+                  <p className="text-red-600 font-medium">This product is currently out of stock</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
-      )}
+
+        {/* Product Tabs */}
+        <div className="mt-12">
+          <ProductTabs
+            loadingProductReview={loadingProductReview}
+            userInfo={userInfo}
+            submitHandler={submitHandler}
+            rating={rating}
+            setRating={setRating}
+            comment={comment}
+            setComment={setComment}
+            product={product}
+          />
+        </div>
+      </div>
     </div>
   );
 }

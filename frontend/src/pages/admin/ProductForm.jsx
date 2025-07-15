@@ -50,17 +50,17 @@ const ProductForm = () => {
       productData.append("stock", stock)
       productData.append("quantity", quantity)
       const { data } = await createProduct(productData);
-      if (data.error) {
+      if (data?.error) {
         console.log(data.error)
         toast.error("Product create failed. Try Again.");
       } else {
-        toast.success(`${data.name} is created`);
+        toast.success(`Product created successfully!`);
         navigate("/");
       }
     }
     catch(error){
       console.error(error);
-      toast.error(error?.data?.message || error?.message || "Product create failed. Try Again.");
+      toast.error("Product create failed. Try Again.");
     }
   }
 
