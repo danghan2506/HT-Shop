@@ -10,6 +10,7 @@ import { StoreIcon, Clock, Star, ShoppingCart, Box, ArrowLeft, Store, Package, M
 import Ratings from '../components/ratings.jsx'
 import { Button } from '../components/ui/button';
 import ProductTabs from '../components/product-tabs';
+import { addToCart } from '../redux/features/cart/cart-slice.js';
 const ProductDetails = () => {
   const { id: productId } = useParams();
   const { data: product, isLoading, refetch, error } = useGetProductDetailsQuery(productId);
@@ -34,8 +35,8 @@ const ProductDetails = () => {
   };
   // Handler for add to cart (placeholder)
   const addToCartHandler = () => {
-    // TODO: Implement add to cart logic
-    toast.success('Added to cart!');
+    dispatch(addToCart({...product, quantity}))
+    navigate('/cart')
   };
   const submitHandler = async (e) => {
     e.preventDefault();

@@ -54,12 +54,12 @@ export const productApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ["Product"],
     }),
-   getRelatedProducts: builder.query({
-  query: ({ categoryId, productId }) => ({
-    url: `${PRODUCT_URL}/related/${categoryId}/${productId}`,
-    method: "GET",
-  }),
-}),
+    getRelatedProducts: builder.query({
+      query: ({ categoryId, productId }) => ({
+        url: `${PRODUCT_URL}/related/${categoryId}/${productId}`,
+        method: "GET",
+      }),
+    }),
     getProduct: builder.query({
       query: ({ keyword }) => ({
         url: `${PRODUCT_URL}`,
@@ -93,7 +93,14 @@ export const productApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
-  }),
+    getFilteredProducts: builder.query({
+    query: ({radio, checked}) => ({
+      url: `${PRODUCT_URL}/filtered-products`,
+      method: "POST",
+      body: {radio, checked}
+    })
+  })
+  })
 });
 export const {
   useCreateProductMutation,
@@ -108,4 +115,5 @@ export const {
   useGetAllProductsQuery,
   useGetProductDetailsQuery,
   useGetRelatedProductsQuery,
+  useGetFilteredProductsQuery
 } = productApiSlice;

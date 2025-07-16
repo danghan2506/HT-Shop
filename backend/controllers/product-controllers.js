@@ -171,5 +171,22 @@ const fetchNewProducts = asyncHandler(async(req, res) => {
     res.status(500).json("Server error!")
   }
 })
+const fetchFilteredProducts = asyncHandler(async(req, res) => {
+  const {checked, radio} = req.body
+  try {
+    var filter = {}
+    if(checked.length > 0){
+      filter.category = checked
+    }
+    if(radio.length > 0){
+      filter.price = {$gte: radio[0], $lte: radio[1]}
+    }
+    const products = await Product.find(filter)
+    res.json(products)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json("Server error!")
+  }
+})
 
-export { createProduct, updateProduct, deleteProduct, fetchProducts, fetchProductById, fetchAllProducts, fetchTopProducts, addProductReviews, fetchNewProducts, fetchRelatedProducts};
+export { createProduct, updateProduct, deleteProduct, fetchProducts, fetchProductById, fetchAllProducts, fetchTopProducts, addProductReviews, fetchNewProducts, fetchRelatedProducts, fetchFilteredProducts};
