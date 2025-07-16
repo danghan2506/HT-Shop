@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Loading from './loader';
 import {Link} from 'react-router-dom'
-import { useGetTopProductsQuery, useGetRelatedProductsQuery } from '../redux/api/product-api-slice';
+import {useGetRelatedProductsQuery } from '../redux/api/product-api-slice';
 import { MessageSquare, Users, Package } from 'lucide-react';
 import Ratings from './ratings';
 const ProductTabs = ({loadingProductReview,userInfo,submitHandler,rating,setRating,comment,setComment,product}) => {

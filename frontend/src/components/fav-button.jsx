@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Heart } from 'lucide-react'
-import { addToFavrourites, removeFromFavourites, setFavourites } from '../redux/features/Auth/favourite/fav-slice'
+import { addToFavrourites, removeFromFavourites, setFavourites } from '../redux/features/favourite/fav-slice'
 import { useDispatch, useSelector } from 'react-redux'
 import { addFavToLocalStorage, removeFavFromLocalStorage, getFavFromLocalStorage } from '../utils/local-storage'
 const FavouriteButton = ({product}) => {

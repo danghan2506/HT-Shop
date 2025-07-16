@@ -20,7 +20,18 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('')
-  console.log(product)
+  // Adjust quantity handler
+  const adjustQuantity = (action) => {
+    setQuantity((prev) => {
+      if (action === 'decrease') {
+        return prev > 1 ? prev - 1 : prev;
+      }
+      if (action === 'increase') {
+        return prev < product.stock ? prev + 1 : prev;
+      }
+      return prev;
+    });
+  };
   // Handler for add to cart (placeholder)
   const addToCartHandler = () => {
     // TODO: Implement add to cart logic
