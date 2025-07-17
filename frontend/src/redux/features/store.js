@@ -5,6 +5,7 @@ import authReducer from './Auth/auth-slice'
 import cartSliceReducer from '../features/cart/cart-slice.js'
 import favouriteReducer from '../features/favourite/fav-slice.js'
 import { getFavFromLocalStorage } from "../../utils/local-storage";
+import shopReducer from '../features/shop/shop-slice.js'
 const initialFavourites = getFavFromLocalStorage() || []
 
 export const store = configureStore({
@@ -12,7 +13,8 @@ export const store = configureStore({
         [apiSlice.reducerPath]: apiSlice.reducer, // 
         auth: authReducer,
         favourites: favouriteReducer,
-        cart: cartSliceReducer
+        cart: cartSliceReducer,
+        shop: shopReducer
     },
     preloadedState: {
         favourites: initialFavourites
