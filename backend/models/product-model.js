@@ -23,4 +23,5 @@ const productSchema = new mongoose.Schema({
     reviews: [reviewSchema] , 
     reviewCount: {type: Number, required: true, default: 0},
 }, {timestamps: true})
-export const Product = mongoose.model("Product", productSchema)
+export const Product = mongoose.model("Product", productSchema);
+
