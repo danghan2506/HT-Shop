@@ -85,8 +85,8 @@ const calculateTotalSales = asyncHandler(async(req, res) => {
 })
 const getOrderById = asyncHandler(async(req, res) => {
     try {
-        const {userId} = req.params
-        const orders = await Order.findById(userId).populate("user", "username email")
+        const {orderId} = req.params
+        const orders = await Order.findById(orderId).populate("user", "username email")
         if(!orders){
             res.status(404).json("No order found!")
         }
@@ -98,4 +98,68 @@ const getOrderById = asyncHandler(async(req, res) => {
         res.status(500).json("Server error!")
     }
 })
-export {createOrder, getAllOrders, getUserOrders, countTotalOrders, calculateTotalSales, getOrderById}
+const calcualteTotalSalesByDate = async (req, res) => {
+  try {
+    const salesByDate = await Order.aggregate([
+      {
+        $match: {
+          isPaid: true,
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: "%Y-%m-%d", date: "$paidAt" },
+          },
+          totalSales: { $sum: "$totalPrice" },
+        },
+      },
+    ]);
+    res.json(salesByDate);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+const markOrderAsPaid = asyncHandler(async(req, res) => {
+    try {
+        const {orderId} = req.params
+        const order = await Order.findById(orderId)
+        if(!order){
+            res.status(404).json("An error occured")
+        }
+        else{
+            order.isPaid = true
+            order.paidAt = Date.now()
+            order.paymentStatus = {
+                id: req.body.id,
+                status: req.body.status,
+                updateTime: req.body.updateTime,
+                emailAddress: req.body.payer.emailAddress
+            }
+        }
+        const updateOrder = await order.save()
+        res.status(201).json(updateOrder)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json("Server error!")
+    }
+})
+const markOrderAsDelivered = asyncHandler(async(req, res) => {
+    try {
+        const {orderId} = req.params
+        const order = await Order.findById(orderId)
+        if(!order){
+            res.status(404).json("An error occured")
+        }
+        else{
+            order.isDelivered = true
+            order.deliveredAt = Date.now()
+        }
+        const updateOrder = await order.save()
+        res.status(201).json(updateOrder)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json("Server error!")
+    }
+})
+export {createOrder, getAllOrders, getUserOrders, countTotalOrders, calculateTotalSales, getOrderById, markOrderAsPaid, markOrderAsDelivered, calcualteTotalSalesByDate}
