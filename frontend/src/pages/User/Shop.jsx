@@ -16,6 +16,7 @@ function Shop() {
   const uniqueBrands = [
     ...new Set(filteredData?.map((p) => p.brand).filter(Boolean))
   ];
+  console.log(filteredData)
   const handleCheck = (value, id) => {
     const updatedChecked = value
       ? [...checked, id]
@@ -27,6 +28,10 @@ function Shop() {
       (product) => product.brand === brand
     );
     dispatch(setProducts(productsByBrand));
+  };
+  const handlePriceChange = (e) => {
+    // Update the price filter state when the user types in the input filed
+    setPriceRange(e.target.value);
   };
   useEffect(() => {
     if (categoriesQuery.data) {
@@ -53,7 +58,7 @@ function Shop() {
       <div className="container mx-auto">
         <div className="flex md:flex-row">
           <div className="bg-[#151515] p-3 mt-2 mb-2">
-            <h2 className="h4 text-center py-2 bg-black rounded-full mb-2">
+            <h2 className="h4 text-center py-2 bg-neutral-500 rounded-full mb-2">
               Filter by Categories
             </h2>
 
@@ -79,7 +84,7 @@ function Shop() {
               ))}
             </div>
 
-            <h2 className="h4 text-center py-2 bg-black rounded-full mb-2">
+            <h2 className="h4 text-center py-2 bg-neutral-500 rounded-full mb-2">
               Filter by Brands
             </h2>
 
@@ -106,7 +111,7 @@ function Shop() {
               ))}
             </div>
 
-            <h2 className="h4 text-center py-2 bg-black rounded-full mb-2">
+            <h2 className="h4 text-center py-2 bg-neutral-500 rounded-full mb-2">
               Filer by Price
             </h2>
 
@@ -115,7 +120,7 @@ function Shop() {
                 type="text"
                 placeholder="Enter Price"
                 value={priceRange}
-                // onChange={handlePriceChange}
+                onChange={handlePriceChange}
                 className="w-full px-3 py-2 placeholder-gray-400 border rounded-lg focus:outline-none focus:ring focus:border-pink-300"
               />
             </div>
