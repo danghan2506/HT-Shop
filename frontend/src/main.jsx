@@ -23,11 +23,13 @@ import Home from './pages/home.jsx'
 import Favourite from './pages/user/favourite.jsx'
 import ProductDetails from './pages/product-details.jsx'
 import Cart from './pages/cart.jsx'
+import Shipping from './pages/orders/shipping.jsx'
 const router = createBrowserRouter(
   createRoutesFromElements(
    <Route path='/' element={<App/>}>
    <Route path='' element={<PrivateRoute/>}>
       <Route path='profile' element={<Profile/>}/>
+      <Route path='/shipping' element={<Shipping/>}/>
    </Route>
    <Route path="/login" element={<Login />}/>
    <Route path='/signup' element={<Signup/>}/>

@@ -32,9 +32,10 @@ export const cartSlice = createSlice({
             state.cartItems = []
             localStorage.setItem("cart", JSON.stringify(state))
         },
-        resetCart: (state) => (
+        resetCart: (state) => {
             state = initialState
-        )   
+        }
+
     }
 })
 export const { addToCart, removeFromCart, saveShippingAddress, savePaymentMethod, clearCartItems, resetCart } = cartSlice.actions
