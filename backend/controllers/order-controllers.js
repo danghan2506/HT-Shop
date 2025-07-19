@@ -50,7 +50,6 @@ const getAllOrders = asyncHandler(async(req, res) => {
 })
 const getUserOrders = asyncHandler(async(req, res) => {
     try {
-        
         const orders = await Order.find({user: req.user._id})
         if(!orders){
             res.status(404).json("No order found!")
@@ -130,7 +129,7 @@ const markOrderAsPaid = asyncHandler(async(req, res) => {
         else{
             order.isPaid = true
             order.paidAt = Date.now()
-            order.paymentStatus = {
+            order.paymentResult = {
                 id: req.body.id,
                 status: req.body.status,
                 updateTime: req.body.updateTime,
