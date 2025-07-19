@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from "react-redux"
 import {Link, useNavigate} from "react-router-dom"
 import { useCreateOrderMutation } from '../../redux/api/order-api-slice'
@@ -7,12 +7,32 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Loader2, ShoppingCart } from "lucide-react";
+import { toast } from 'sonner';
+import { clearCartItems } from '../../redux/features/cart/cart-slice';
+
 const PlaceOrder = () => {
     const cart = useSelector((state) => state.cart)
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const [createOrder, {isLoading, error}] = useCreateOrderMutation()
-    const placeOrderHandler = (e) => {
-        e.preventDefault()
+    const placeOrderHandler = async (e) => {
+      e.preventDefault()
+        try {
+          const res = await createOrder({
+            orderItems: cart.cartItems,
+            shippingAddress: cart.shippingAddress,
+            paymentMethod: cart.paymentMethod,
+            itemsPrice: cart.itemsPrice,
+            shippingPrice: cart.shippingPrice,
+            taxPrice: cart.taxPrice,
+            totalPrice: cart.totalPrice
+          }).unwrap()
+          dispatch(clearCartItems())
+          navigate(`/order/${res._id}`)
+        } catch (error) {
+          console.log(error)
+          toast.error(error)
+        }
     }
     useEffect(() => {
         if(!cart.shippingAddress.address){
@@ -40,7 +60,7 @@ const PlaceOrder = () => {
                     <TableRow>
                       <TableHead className="w-20">Image</TableHead>
                       <TableHead>Product</TableHead>
-                      <TableHead className="text-center">Qty</TableHead>
+                      <TableHead className="text-center">Quantity</TableHead>
                       <TableHead className="text-right">Price</TableHead>
                       <TableHead className="text-right">Total</TableHead>
                     </TableRow>
@@ -64,13 +84,13 @@ const PlaceOrder = () => {
                           </Link>
                         </TableCell>
                         <TableCell className="text-center font-medium">
-                          {item.qty}
+                          {item.quantity}
                         </TableCell>
                         <TableCell className="text-right font-medium">
                           ${item.price.toFixed(2)}
                         </TableCell>
                         <TableCell className="text-right font-semibold">
-                          ${(item.qty * item.price).toFixed(2)}
+                          ${(item.quantity * item.price).toFixed(2)}
                         </TableCell>
                       </TableRow>
                     ))}

@@ -25,6 +25,8 @@ import ProductDetails from './pages/product-details.jsx'
 import Cart from './pages/cart.jsx'
 import Shipping from './pages/orders/shipping.jsx'
 import PlaceOrder from './pages/orders/place-order.jsx'
+import {PaypalScriptProvider} from '@paypal/react-paypal-js'
+import OrderSummary from './pages/orders/order-summary.jsx'
 const router = createBrowserRouter(
   createRoutesFromElements(
    <Route path='/' element={<App/>}>
@@ -32,6 +34,7 @@ const router = createBrowserRouter(
       <Route path='profile' element={<Profile/>}/>
       <Route path='/shipping' element={<Shipping/>}/>
       <Route path='/place-order' element={<PlaceOrder/>}/>
+      <Route path='/order/:orderId' element={<OrderSummary/>}/>
    </Route>
    <Route path="/login" element={<Login />}/>
    <Route path='/signup' element={<Signup/>}/>
@@ -54,6 +57,9 @@ const router = createBrowserRouter(
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <Toaster/>
-    <RouterProvider router={router}/>
+    <PaypalScriptProvider>
+      <RouterProvider router={router}/>
+    </PaypalScriptProvider>
+
   </Provider>
 )
