@@ -108,7 +108,7 @@ const ProductDetails = () => {
               </div>
 
               <div className="flex items-center gap-4">
-                <span className="text-4xl font-bold text-gray-600">{product.price} VNĐ</span>
+                <span className="text-4xl font-bold text-gray-600">{product.price} $</span>
                 <div className="flex items-center">
                   <Ratings value={product.rating} text={`${product.reviewCount} reviews`} />
                 </div>

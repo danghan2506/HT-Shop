@@ -22,7 +22,7 @@ const SmallProduct = ({ product }) => {
               {product.name}
             </h2>
             <span className="bg-primary/10 text-primary text-sm font-medium px-3 py-1 rounded-full whitespace-nowrap">
-              {product.price} VNĐ
+              {product.price} $
             </span>
           </div>
         </Link>

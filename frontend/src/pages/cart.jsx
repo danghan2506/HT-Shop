@@ -2,7 +2,7 @@ import React from 'react'
 import { addToCart, removeFromCart } from '../redux/features/cart/cart-slice'
 import {Link, useNavigate} from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
-import { ArrowLeft, Minus, Plus, Trash2} from 'lucide-react'
+import { ArrowLeft, Minus, Plus, Trash2, ShoppingBag} from 'lucide-react'
 import { Button } from '../components/ui/button'
 const Cart = () => {
   const navigate = useNavigate()
@@ -82,7 +82,7 @@ const Cart = () => {
                       {item.name}
                     </Link>
                     <p className="text-sm text-gray-500 mt-1">{item.brand}</p>
-                    <p className="text-xl font-bold text-gray-900 mt-2">{item.price} VNĐ</p>
+                    <p className="text-xl font-bold text-gray-900 mt-2">{item.price} $</p>
                   </div>
 
                   {/* Quantity Controls + Remove */}
@@ -134,7 +134,7 @@ const Cart = () => {
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-gray-600">
                   <span>Items ({totalItems})</span>
-                  <span>{totalPrice.toFixed(2)} VNĐ</span>
+                  <span>{totalPrice.toFixed(2)} $</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
@@ -143,7 +143,7 @@ const Cart = () => {
                 <div className="border-t border-gray-200 pt-3">
                   <div className="flex justify-between text-lg font-semibold text-gray-900">
                     <span>Total</span>
-                    <span>{totalPrice.toFixed(2)} VNĐ</span>
+                    <span>{totalPrice.toFixed(2)} $</span>
                   </div>
                 </div>
               </div>

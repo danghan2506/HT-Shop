@@ -42,7 +42,7 @@ const CarouselProductDisplay = () => {
                       {product.name}
                     </h3>
                     <p className="text-primary font-bold text-lg md:text-xl">
-                      {product.price} VNĐ
+                      {product.price} $
                     </p>
                     <div className="flex items-center justify-center gap-1">
                       {Array.from({ length: 5 }).map((_, i) => (
