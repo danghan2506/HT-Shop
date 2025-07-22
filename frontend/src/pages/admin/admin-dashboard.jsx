@@ -35,7 +35,7 @@ const AdminDashboard = () => {
   const { data: customers, isLoading: loadingCustomers } = useUserListQuery();
   const { data: orders, isLoading: loadingOrders } = useGetTotalOrdersQuery();
   const { data: salesDetail } = useGetTotalSalesByDateQuery();
-
+  console.log(orders)
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -79,45 +79,45 @@ const AdminDashboard = () => {
   }, [salesDetail]);
 
   return (
-    <div className="flex flex-col gap-6 p-6 lg:ml-[250px] lg:pr-6 dark bg-white dark:bg-black min-h-screen">
+    <div className="flex flex-col gap-6 p-4 md:p-6 lg:ml-[160px] xl:ml-[60px] lg:pr-2 xl:pr-4 bg-gray-50 min-h-screen">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card className="bg-black text-white">
+        <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg hover:shadow-xl transition-shadow">
           <CardContent className="p-4">
-            <CardTitle>Sales</CardTitle>
+            <CardTitle className="text-blue-100">Sales</CardTitle>
             <div className="text-2xl font-bold mt-2">
-              {loadingSales ? <Skeleton className="w-20 h-6" /> : `$${sales.totalSales.toFixed(2)}`}
+              {loadingSales ? <Skeleton className="w-20 h-6" /> : `$${sales}`}
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-black text-white">
+        <Card className="bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-lg hover:shadow-xl transition-shadow">
           <CardContent className="p-4">
-            <CardTitle>Customers</CardTitle>
+            <CardTitle className="text-emerald-100">Customers</CardTitle>
             <div className="text-2xl font-bold mt-2">
               {loadingCustomers ? <Skeleton className="w-20 h-6" /> : customers?.length}
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-black text-white">
+        <Card className="bg-gradient-to-br from-purple-500 to-purple-600 text-white shadow-lg hover:shadow-xl transition-shadow">
           <CardContent className="p-4">
-            <CardTitle>Orders</CardTitle>
+            <CardTitle className="text-purple-100">Orders</CardTitle>
             <div className="text-2xl font-bold mt-2">
-              {loadingOrders ? <Skeleton className="w-20 h-6" /> : orders?.totalOrders}
+              {loadingOrders ? <Skeleton className="w-20 h-6" /> : orders}
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="bg-white dark:bg-black">
+      <Card className="bg-white shadow-lg">
         <CardContent className="p-6">
-          <CardTitle className="text-black dark:text-white mb-4">Sales Trend</CardTitle>
+          <CardTitle className="text-gray-800 mb-4">Sales Trend</CardTitle>
           <Line data={chartData} options={chartOptions} />
         </CardContent>
       </Card>
 
-      <div className="bg-white dark:bg-black p-4 rounded-lg shadow-md">
-        <h2 className="text-lg font-semibold mb-4 text-black dark:text-white">Recent Orders</h2>
+      <div className="bg-white p-6 rounded-lg shadow-lg">
+        <h2 className="text-lg font-semibold mb-4 text-gray-800">Recent Orders</h2>
         <AllOrders />
       </div>
     </div>
