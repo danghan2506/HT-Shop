@@ -3,10 +3,10 @@ import apiSlice from "./api-slice";
 export const orderApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createOrder: builder.mutation({
-      query: (data) => ({
-        url: `${ORDER_URL}/`,
+      query: (order) => ({
+        url: ORDER_URL,
         method: "POST",
-        body: data,
+        body: order,
       }),
     }),
     getAllOrders: builder.query({
@@ -30,22 +30,22 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     payOrder: builder.mutation({
-      query: (orderId, data) => ({
+      query: ({orderId, details}) => ({
         url: `${ORDER_URL}/${orderId}/payment`,
         method: "PUT",
-        body: data,
+        body: details,
       }),
     }),
     deliverOrder: builder.mutation({
-      query: (orderId, data) => ({
+      query: ({orderId, details}) => ({
         url: `${ORDER_URL}/${orderId}/delivery`,
         method: "PUT",
-        body: data,
+        body: details,
       }),
     }),
     getPaypalClientId: builder.query({
       query: () => ({
-        url: `${PAYPAL_URL}`,
+        url: PAYPAL_URL,
       }),
     }),
     getTotalOrders: builder.query({

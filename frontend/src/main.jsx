@@ -60,6 +60,5 @@ createRoot(document.getElementById('root')).render(
     <PayPalScriptProvider>
       <RouterProvider router={router}/>
     </PayPalScriptProvider>
-
   </Provider>
 )

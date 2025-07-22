@@ -120,24 +120,26 @@ const calcualteTotalSalesByDate = async (req, res) => {
   }
 };
 const markOrderAsPaid = asyncHandler(async(req, res) => {
+    const {orderId} = req.params
     try {
-        const {orderId} = req.params
         const order = await Order.findById(orderId)
-        if(!order){
-            res.status(404).json("An error occured")
-        }
-        else{
-            order.isPaid = true
-            order.paidAt = Date.now()
-            order.paymentResult = {
-                id: req.body.id,
-                status: req.body.status,
-                updateTime: req.body.updateTime,
-                emailAddress: req.body.payer.emailAddress
-            }
-        }
-        const updateOrder = await order.save()
-        res.status(201).json(updateOrder)
+        if (order) {
+        order.isPaid = true;
+        order.paidAt = Date.now();
+        order.paymentResult = {
+        id: req.body.id,
+        status: req.body.status,
+        update_time: req.body.update_time,
+        email_address: req.body.payer.email_address,
+      };
+    const updateOrder = await order.save()
+    console.log(updateOrder)
+    res.status(201).json(updateOrder)
+    }
+    else{
+        res.status(404);
+        throw new Error("Order not found");
+    }
     } catch (error) {
         console.error(error)
         res.status(500).json("Server error!")

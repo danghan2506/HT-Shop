@@ -27,7 +27,6 @@ const PlaceOrder = () => {
             taxPrice: cart.taxPrice,
             totalPrice: cart.totalPrice
           }).unwrap()
-          console.log(res)
           dispatch(clearCartItems())
           navigate(`/order/${res._id}`)
         } catch (error) {
